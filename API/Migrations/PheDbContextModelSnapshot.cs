@@ -186,6 +186,29 @@ namespace API.Migrations
                     b.HasKey("Guid");
 
                     b.ToTable("tb_m_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Guid = new Guid("5eeda544-ee8f-495d-9366-6c04e0904a5c"),
+                            CreatedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9902),
+                            ModifiedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9917),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Guid = new Guid("4016bbf3-5514-4478-97f8-85a3baef09c2"),
+                            CreatedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9921),
+                            ModifiedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9921),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Guid = new Guid("24706f51-2651-4cd2-9ca0-c8e510969b7d"),
+                            CreatedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9923),
+                            ModifiedDate = new DateTime(2023, 12, 30, 8, 5, 18, 810, DateTimeKind.Local).AddTicks(9924),
+                            Name = "Vendor"
+                        });
                 });
 
             modelBuilder.Entity("API.Models.User", b =>

@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.DTOs.Roles;
+using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -18,6 +19,21 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Role>().HasData(
+               new DefaultRoleDto
+               {
+                   Guid = Guid.Parse("5eeda544-ee8f-495d-9366-6c04e0904a5c"),
+                   Name = "Manager"
+               }, new DefaultRoleDto
+               {
+                   Guid = Guid.Parse("4016bbf3-5514-4478-97f8-85a3baef09c2"),
+                   Name = "Admin"
+               }, new DefaultRoleDto
+               {
+                   Guid = Guid.Parse("24706f51-2651-4cd2-9ca0-c8e510969b7d"),
+                   Name = "Vendor"
+               });
 
             modelBuilder.Entity<User>().HasIndex(user => new
             {
