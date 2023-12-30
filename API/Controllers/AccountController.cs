@@ -68,7 +68,7 @@ namespace API.Controllers
             var result = _accountService.Create(newAccountDto);
             if (result is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<AccountDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<NewAccountDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -76,12 +76,12 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<AccountDto>
+            return Ok(new ResponseHandler<NewAccountDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
                 Message = "Success insert data",
-                Data = result
+                Data = newAccountDto
             });
         }
 

@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(NewRoleDto newRoleDto)
+        public IActionResult Insert(NewRoleDto newRoleDto)
         {
             var result = _roleService.Create(newRoleDto);
             if (result is null)

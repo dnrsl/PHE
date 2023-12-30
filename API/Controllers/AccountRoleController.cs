@@ -68,7 +68,7 @@ namespace API.Controllers
             var result = _accountRoleService.Create(newAccountRoleDto);
             if (result is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<AccountRoleDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<NewAccountRoleDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -76,12 +76,12 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<AccountRoleDto>
+            return Ok(new ResponseHandler<NewAccountRoleDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
                 Message = "Success insert data",
-                Data = result
+                Data = newAccountRoleDto
             });
         }
 

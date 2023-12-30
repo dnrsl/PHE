@@ -67,7 +67,7 @@ namespace API.Controllers
             var result = _characteristicService.Create(newCharacteristicDto);
             if (result is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<CharacteristicDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<NewCharacteristicDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -75,12 +75,12 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<CharacteristicDto>
+            return Ok(new ResponseHandler<NewCharacteristicDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
                 Message = "Success insert data",
-                Data = result
+                Data = newCharacteristicDto
             });
         }
 

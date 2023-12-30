@@ -1,4 +1,5 @@
-﻿using API.DTOs.Projects;
+﻿using API.DTOs.Roles;
+using API.DTOs.UserProjects;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Mvc;
@@ -7,34 +8,35 @@ using System.Net;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/projects")]
-    public class ProjectController : ControllerBase
+    [Route("api/user-projects")]
+    public class UserProjectController : ControllerBase
     {
-        private readonly ProjectService _projectService;
-        public ProjectController(ProjectService projectService)
+        private readonly UserProjectService _userProjectService;
+
+        public UserProjectController(UserProjectService userProjectService)
         {
-            _projectService = projectService;
+            _userProjectService = userProjectService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _projectService.GetAll();
+            var result = _userProjectService.GetAll();
             if (!result.Any())
             {
-                return NotFound(new ResponseHandler<ProjectDto>
+                return NotFound(new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
-                    Message = "data not found"
+                    Message = "Data not found."
                 });
             }
 
-            return Ok(new ResponseHandler<IEnumerable<ProjectDto>>
+            return Ok(new ResponseHandler<IEnumerable<UserProjectDto>>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Success retrieve data",
+                Message = "Success! Data retrieved successfully.",
                 Data = result
             });
         }
@@ -42,112 +44,110 @@ namespace API.Controllers
         [HttpGet("{guid}")]
         public IActionResult GetByGuid(Guid guid)
         {
-            var result = _projectService.GetByGuid(guid);
+            var result = _userProjectService.GetByGuid(guid);
             if (result is null)
             {
-                return NotFound(new ResponseHandler<ProjectDto>
+                return NotFound(new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
-                    Message = "guid not found"
+                    Message = "Guid is not found."
                 });
             }
 
-            return Ok(new ResponseHandler<ProjectDto>
+            return Ok(new ResponseHandler<UserProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Success retrieve data",
+                Message = "Success! Data retrieved successfully.",
                 Data = result
             });
         }
 
         [HttpPost]
-        public IActionResult Insert(NewProjectDto newProjectDto)
+        public IActionResult Insert(NewUserProjectDto newUserProjectDto)
         {
-            var result = _projectService.Create(newProjectDto);
+            var result = _userProjectService.Create(newUserProjectDto);
             if (result is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<NewProjectDto>
+                return StatusCode(500, new ResponseHandler<NewUserProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
-                    Message = "Internal server error"
+                    Message = "Internal Server Error: Unable to retrieve data from the database."
                 });
             }
 
-            return Ok(new ResponseHandler<NewProjectDto>
+            return Ok(new ResponseHandler<NewUserProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Success insert data",
-                Data = newProjectDto
+                Message = "Success! Data has been created successfully.",
+                Data = newUserProjectDto
             });
         }
 
         [HttpPut]
-        public IActionResult Update(ProjectDto projectDto)
+        public IActionResult Update(UserProjectDto userProjectDto)
         {
-            var result = _projectService.Update(projectDto);
-
+            var result = _userProjectService.Update(userProjectDto);
             if (result is -1)
             {
-                return NotFound(new ResponseHandler<ProjectDto>
+                return NotFound(new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
-                    Message = "data not found"
+                    Message = "Guid is not found."
                 });
             }
 
             if (result is 0)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProjectDto>
+                return StatusCode(500, new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
-                    Message = "Internal server error"
+                    Message = "Internal Server Error: Unable to retrieve data from the database."
                 });
             }
 
-            return Ok(new ResponseHandler<ProjectDto>
+            return Ok(new ResponseHandler<UserProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Success update data"
+                Message = "Success! Data has been updated successfully."
             });
         }
 
         [HttpDelete]
         public IActionResult Delete(Guid guid)
         {
-            var result = _projectService.Delete(guid);
-
+            var result = _userProjectService.Delete(guid);
             if (result is -1)
             {
-                return NotFound(new ResponseHandler<ProjectDto>
+                return NotFound(new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
-                    Message = "data not found"
+                    Message = "Guid is not found."
                 });
             }
 
             if (result is 0)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProjectDto>
+                return StatusCode(500, new ResponseHandler<UserProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
-                    Message = "Internal server error"
+                    Message = "Internal Server Error: Unable to retrieve data from the database."
                 });
             }
 
-            return Ok(new ResponseHandler<ProjectDto>
+            return Ok(new ResponseHandler<UserProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Success delete data"
+                Message = "Success! Data has been deleted successfully."
             });
         }
     }
