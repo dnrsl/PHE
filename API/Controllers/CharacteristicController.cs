@@ -22,7 +22,7 @@ namespace API.Controllers
         public IActionResult GetAll()
         {
             var result = _characteristicService.GetAll();
-            if (!result.Any(){
+            if (!result.Any()){
                 return NotFound(new ResponseHandler<CharacteristicDto>
                 {
                     Code = StatusCodes.Status404NotFound,
