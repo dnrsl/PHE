@@ -29,6 +29,7 @@ builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<ICharacteristicRepository, CharacteristicRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IUserProjectRepository, UserProjectRepository>();
 
 // Add services to the container.
 builder.Services.AddScoped<UserService>();
@@ -37,6 +38,7 @@ builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<CharacteristicService>();
 builder.Services.AddScoped<ProjectService>();
 builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<UserProjectService>();
 
 //Register FluentValidation
 builder.Services.AddFluentValidationAutoValidation().AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
