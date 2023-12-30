@@ -9,10 +9,7 @@ namespace Client.Repositories
 {
     public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepository
     {
-        public AccountRepository(string request = "accounts/") : base(request)
-        {
-
-        }
+        public AccountRepository(string request = "accounts/") : base(request) { }
 
         public async Task<ResponseHandler<TokenVM>> Login(LoginVM login)
         {

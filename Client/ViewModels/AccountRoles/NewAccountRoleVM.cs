@@ -1,31 +1,31 @@
 ﻿using Client.Models;
 
-namespace Client.ViewModels.AccountRoles;
-
-public class NewAccountRoleVM
+namespace Client.ViewModels.AccountRoles
 {
-    public Guid AccountGuid { get; set; }
-    public Guid RoleGuid { get; set; }
-
-    public static implicit operator AccountRole(NewAccountRoleVM newAccountRoleVM)
+    public class NewAccountRoleVM
     {
-        return new AccountRole
-        {
-            Guid = new Guid(),
-            AccountGuid = newAccountRoleVM.AccountGuid,
-            RoleGuid = newAccountRoleVM.RoleGuid,
-            CreatedDate = DateTime.Now,
-            ModifiedDate = DateTime.Now
-        };
+        public Guid AccountGuid { get; set; }
+        public Guid RoleGuid { get; set; }
 
-    }
-
-    public static explicit operator NewAccountRoleVM(AccountRole accountRole)
-    {
-        return new NewAccountRoleVM
+        public static implicit operator AccountRole(NewAccountRoleVM dto)
         {
-            AccountGuid = accountRole.AccountGuid,
-            RoleGuid = accountRole.RoleGuid,
-        };
+            return new AccountRole
+            {
+                Guid = new Guid(),
+                RoleGuid = dto.RoleGuid,
+                AccountGuid = dto.AccountGuid,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now
+            };
+        }
+
+        public static explicit operator NewAccountRoleVM(AccountRole accountRole)
+        {
+            return new NewAccountRoleVM
+            {
+                AccountGuid = accountRole.AccountGuid,
+                RoleGuid = accountRole.RoleGuid,
+            };
+        }
     }
 }

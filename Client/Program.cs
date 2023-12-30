@@ -8,15 +8,12 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
-
 
 // Jwt Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -73,6 +70,7 @@ app.UseStatusCodePages(async context => {
     }
 });
 
+
 app.UseSession();
 
 //Add JWToken to all incoming HTTP Request Header
@@ -88,8 +86,12 @@ app.Use(async (context, next) =>
     await next();
 });
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
