@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Register">
+        <form asp-action="Register" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
@@ -40,8 +40,7 @@
             <div class="form-group">
                 <label asp-for="PhotoFile" class="control-label"></label>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">Default file input example</label>
-                    <input class="form-control" type="file" id="formFile">
+                    <input asp-for="PhotoFile" type="file" accept=".jpg,.png" class="form-control">
                 </div>
                 <span asp-validation-for="PhotoFile" class="text-danger"></span>
             </div>

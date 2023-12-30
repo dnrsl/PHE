@@ -39,7 +39,7 @@ namespace Client.Controllers
             }
             else
             {
-                registerVM.Photo = "default.jpg";
+                registerVM.Photo = "default";
             }
             var result = await repository.Register(registerVM);
             if (result.Code == 200)
