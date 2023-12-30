@@ -1,4 +1,4 @@
-﻿using API.DTOs.Characteristics;
+﻿using API.DTOs.Projects;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Mvc;
@@ -7,29 +7,30 @@ using System.Net;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/characteristics")]
-    public class CharacteristicController : ControllerBase
+    [Route("api/projects")]
+    public class ProjectController : ControllerBase
     {
-        private readonly CharacteristicService _characteristicService;
-
-        public CharacteristicController(CharacteristicService characteristicService)
+        private readonly ProjectService _projectService;
+        public ProjectController(ProjectService projectService)
         {
-            _characteristicService = characteristicService;
+            _projectService = projectService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _characteristicService.GetAll();
-            if (!result.Any()){
-                return NotFound(new ResponseHandler<CharacteristicDto>
+            var result = _projectService.GetAll();
+            if (!result.Any())
+            {
+                return NotFound(new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
                     Message = "data not found"
                 });
             }
-            return Ok(new ResponseHandler<IEnumerable<CharacteristicDto>>
+
+            return Ok(new ResponseHandler<IEnumerable<ProjectDto>>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
@@ -41,10 +42,10 @@ namespace API.Controllers
         [HttpGet("{guid}")]
         public IActionResult GetByGuid(Guid guid)
         {
-            var result = _characteristicService.GetByGuid(guid);
+            var result = _projectService.GetByGuid(guid);
             if (result is null)
             {
-                return NotFound(new ResponseHandler<CharacteristicDto>
+                return NotFound(new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
@@ -52,7 +53,7 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<CharacteristicDto>
+            return Ok(new ResponseHandler<ProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
@@ -62,12 +63,12 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(NewCharacteristicDto newCharacteristicDto)
+        public IActionResult Insert(NewProjectDto newProjectDto)
         {
-            var result = _characteristicService.Create(newCharacteristicDto);
+            var result = _projectService.Create(newProjectDto);
             if (result is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<CharacteristicDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -75,7 +76,7 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<CharacteristicDto>
+            return Ok(new ResponseHandler<ProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
@@ -85,13 +86,13 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(CharacteristicDto characteristicDto)
+        public IActionResult Update(ProjectDto projectDto)
         {
-            var result = _characteristicService.Update(characteristicDto);
+            var result = _projectService.Update(projectDto);
 
             if (result is -1)
             {
-                return NotFound(new ResponseHandler<CharacteristicDto>
+                return NotFound(new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
@@ -101,7 +102,7 @@ namespace API.Controllers
 
             if (result is 0)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<CharacteristicDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -109,7 +110,7 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<CharacteristicDto>
+            return Ok(new ResponseHandler<ProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
@@ -120,11 +121,11 @@ namespace API.Controllers
         [HttpDelete]
         public IActionResult Delete(Guid guid)
         {
-            var result = _characteristicService.Delete(guid);
+            var result = _projectService.Delete(guid);
 
             if (result is -1)
             {
-                return NotFound(new ResponseHandler<CharacteristicDto>
+                return NotFound(new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status404NotFound,
                     Status = HttpStatusCode.NotFound.ToString(),
@@ -134,7 +135,7 @@ namespace API.Controllers
 
             if (result is 0)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<CharacteristicDto>
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProjectDto>
                 {
                     Code = StatusCodes.Status500InternalServerError,
                     Status = HttpStatusCode.InternalServerError.ToString(),
@@ -142,7 +143,7 @@ namespace API.Controllers
                 });
             }
 
-            return Ok(new ResponseHandler<CharacteristicDto>
+            return Ok(new ResponseHandler<ProjectDto>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
