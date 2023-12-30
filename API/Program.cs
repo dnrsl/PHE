@@ -24,9 +24,15 @@ builder.Services.AddDbContext<PheDbContext>(options => options.UseSqlServer(conn
 
 // Add repositories to the container
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<ICharacteristicRepository, CharacteristicRepository>();
 
 // Add services to the container.
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<CharacteristicService>();
 
 //Register FluentValidation
 builder.Services.AddFluentValidationAutoValidation().AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
