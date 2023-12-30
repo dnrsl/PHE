@@ -4,6 +4,7 @@ using API.DTOs.Accounts;
 using API.DTOs.AccountRoles;
 using API.DTOs.Users;
 using API.Models;
+using System.Security.Claims;
 
 namespace API.Services
 {
@@ -12,14 +13,16 @@ namespace API.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
         private readonly IAccountRoleRepository _accountRoleRepository;
+        private readonly ITokenHandler _tokenHandler;
         private readonly PheDbContext _dbContext;
 
-        public AccountService(IAccountRepository accountRepository, IUserRepository userRepository, IAccountRoleRepository accountRoleRepository, PheDbContext pheDbContext)
+        public AccountService(IAccountRepository accountRepository, IUserRepository userRepository, IAccountRoleRepository accountRoleRepository, ITokenHandler tokenHandler, PheDbContext pheDbContext)
         {
             _accountRepository = accountRepository;
             _dbContext = pheDbContext;
             _userRepository = userRepository;
             _accountRoleRepository = accountRoleRepository;
+            _tokenHandler = tokenHandler;
         }
 
         public IEnumerable<AccountDto> GetAll()
@@ -126,6 +129,48 @@ namespace API.Services
             }
 
             return (RegisterDto)registerDto;
+        }
+
+        public string Login(LoginDto loginDto)
+        {
+            try
+            {
+                var getUser = _userRepository.GetByEmail(loginDto.Email);
+
+                if (getUser is null)
+                {
+                    return "0";
+                }
+
+                var getAccount = _accountRepository.GetByGuid(getUser.Guid);
+                if(loginDto.Password != getAccount.Password)
+                {
+                    return "0";
+                }
+
+                var getRoles = _accountRoleRepository.GetRoleNamesByAccountGuid(getUser.Guid);
+
+                var claims = new List<Claim>
+                {
+                    new Claim("Guid", getAccount.Guid.ToString()),
+                };
+
+                foreach (var role in getRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+
+                var generatedToken = _tokenHandler.GenerateToken(claims);
+                if(generatedToken is null)
+                {
+                    return "-1";
+                }
+                return generatedToken;
+            }
+            catch
+            {
+                return "0";
+            }
         }
 
     }
